@@ -26,8 +26,9 @@ class Board extends Component {
     });
   }
 
-  addCard = (card) => {
-    axios.post(`${this.props.url}${this.props.boardName}/cards`, card)
+  addCard = (newCardData) => {
+    const addCardUrl = `${this.props.url}${this.props.boardName}/cards`
+    axios.post(addCardUrl, newCardData)
     .then((response) => {
       let cards = this.state.cards;
       cards.push(response.data.card);
@@ -58,7 +59,7 @@ class Board extends Component {
 
     renderCardComponents = () => {
       const cards = this.state.cards.map((card, index) => {
-        return(
+        return (
           <Card
             key={index}
             text={card.text}
@@ -72,12 +73,19 @@ class Board extends Component {
       return cards;
     }
 
+    renderAddCardCallback = () => {
+      return (
+        <NewCardForm addCardCallback={this.addCard} />
+      )
+    }
+
     render() {
       const renderedCards = this.renderCardComponents()
+      const renderedAddCardCallback = this.renderAddCardCallback()
       return (
 
         <div className="board">
-          {<NewCardForm addCardCallback={this.addCard} />}
+          { renderedAddCardCallback }
           { renderedCards }
         </div>
 
