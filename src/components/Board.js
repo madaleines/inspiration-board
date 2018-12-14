@@ -10,16 +10,29 @@ import CARD_DATA from '../data/card-data.json';
 class Board extends Component {
   constructor() {
     super();
-
     this.state = {
       cards: [],
     };
   }
 
+  renderCardComponents = () => {
+    const cards = CARD_DATA.cards.map((card, index) => {
+      return(
+        <Card
+          key={index}
+          text={card.text}
+          emoji={card.emoji}
+          />
+      )
+    })
+    return cards;
+  }
+
   render() {
+    const renderedCards = this.renderCardComponents()
     return (
       <div>
-        Board
+        { renderedCards }
       </div>
     )
   }
