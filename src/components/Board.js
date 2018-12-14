@@ -16,7 +16,8 @@ class Board extends Component {
   }
 
   componentDidMount() {
-    axios.get(`${this.props.url}${this.props.boardName}/cards`)
+    const retrieveListUrl = `${this.props.url}${this.props.boardName}/cards`
+    axios.get(retrieveListUrl)
     .then((response) => {
       const cards = this.state.cards;
       response.data.forEach((card) => {
