@@ -5,7 +5,6 @@ import axios from 'axios';
 import './Board.css';
 import Card from './Card';
 import NewCardForm from './NewCardForm';
-// import CARD_DATA from '../data/card-data.json';
 
 class Board extends Component {
   constructor() {
@@ -18,19 +17,29 @@ class Board extends Component {
   componentDidMount() {
     const retrieveListUrl = `${this.props.url}${this.props.boardName}/cards`
     axios.get(retrieveListUrl)
-    .then((response) => {
-      const cards = this.state.cards;
-      response.data.forEach((card) => {
-        const newCard = {};
-        newCard.id = card.card.id;
-        newCard.text = card.card.text;
-        newCard.emoji = card.card.emoji;
-        cards.push(newCard);
+      .then((response) => {
+        const cards = response.data.map(inputCard => inputCard.card);
+        this.setState({ cards });
       })
-      this.setState({ cards })
+      .catch((error) => {
+        this.setState({ error: error.message});
+      });
+  }
+
+  deleteCard = (id, index) => {
+    const deleteCardUrl  = `${this.props.cardUrl}${id}`
+    const cards = this.state.cards
+    console.log(deleteCardUrl)
+    axios.delete(deleteCardUrl)
+    .then((response) => {
+      cards.splice(index, 1)
+      this.setState({
+        cards,
+        message: `Sucessfully deleted Card ${response.data.card.id}`
+      })
     })
     .catch((error) => {
-      this.setState({ error: error.message})
+      this.setState({ message: error.message})
     });
   }
 
@@ -41,6 +50,9 @@ class Board extends Component {
           key={index}
           text={card.text}
           emoji={card.emoji}
+          id={card.id}
+          index={index}
+          deleteCardCallback={ this.deleteCard }
           />
       )
     })
@@ -55,7 +67,6 @@ class Board extends Component {
       </div>
     )
   }
-
 }
 
 Board.propTypes = {

@@ -21,6 +21,11 @@ class Card extends Component {
     }
   }
 
+  selectDelete = () => {
+    console.log(this.props.id, this.props.index)
+    this.props.deleteCardCallback(this.props.id, this.props.index)
+  }
+
   render() {
     const renderedText = this.renderText()
     const renderedEmoji = this.renderEmoji()
@@ -31,13 +36,19 @@ class Card extends Component {
           { renderedText }
           { renderedEmoji }
         </div>
+        <button type="button" onClick={ this.selectDelete }>x</button>
+
       </section>
     )
   }
 }
 
 Card.propTypes = {
-
+  text: PropTypes.string,
+  emoji: PropTypes.string,
+  index: PropTypes.number.isRequired,
+  id: PropTypes.number.isRequired,
+  deleteCardCallback: PropTypes.func.isRequired
 };
 
 export default Card;
