@@ -50,7 +50,7 @@ class Board extends Component {
   render() {
     const renderedCards = this.renderCardComponents()
     return (
-      <div>
+      <div className="board">
         { renderedCards }
       </div>
     )
