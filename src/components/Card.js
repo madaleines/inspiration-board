@@ -23,7 +23,7 @@ class Card extends Component {
 
   selectDelete = () => {
     console.log(this.props.id, this.props.index)
-    this.props.deleteCardCallback(this.props.id, this.props.index)
+    this.props.deleteCardCallback(this)
   }
 
   render() {

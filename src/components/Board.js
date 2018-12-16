@@ -30,22 +30,24 @@ class Board extends Component {
     const addCardUrl = `${this.props.url}${this.props.boardName}/cards`
     axios.post(addCardUrl, newCardData)
     .then((response) => {
-      let cards = this.state.cards;
+      const cards = this.state.cards;
       cards.push(response.data.card);
-      this.setState({cards,
-        message: 'working'});
+      this.setState({
+        cards,
+        message: 'Added a new card successfully!'});
       })
       .catch((error) => {
         this.setState({ error: error.message });
       });
     };
 
-    deleteCard = (id, index) => {
-      const deleteCardUrl  = `${this.props.cardUrl}${id}`
-      const cards = this.state.cards
-      console.log(deleteCardUrl)
+    deleteCard = (card) => {
+      const deleteCardUrl  = `${this.props.cardUrl}${card.props.id}}`
+      console.log(card);
       axios.delete(deleteCardUrl)
       .then((response) => {
+        const cards = this.state.cards;
+        const index = card.props.index
         cards.splice(index, 1)
         this.setState({
           cards,
