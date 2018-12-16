@@ -14,11 +14,15 @@ class Board extends Component {
     };
   }
 
+  getCards = (input) => {
+    return input.data.map(inputCard => inputCard.card)
+  }
+
   componentDidMount() {
     const retrieveListUrl = `${this.props.url}${this.props.boardName}/cards`
     axios.get(retrieveListUrl)
     .then((response) => {
-      const cards = response.data.map(inputCard => inputCard.card);
+      const cards = this.getCards(response);
       this.setState({ cards });
     })
     .catch((error) => {
@@ -85,7 +89,6 @@ class Board extends Component {
       const renderedCards = this.renderCardComponents()
       const renderedAddCardCallback = this.renderAddCardCallback()
       return (
-
         <div className="board">
           { renderedAddCardCallback }
           { renderedCards }
