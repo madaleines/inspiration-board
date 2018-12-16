@@ -19,7 +19,9 @@ class Board extends Component {
   }
 
   componentDidMount() {
-    const retrieveListUrl = `${this.props.url}${this.props.boardName}/cards`
+    const { boardsUrl, boardName, cards } = this.props
+    const retrieveListUrl = boardsUrl + boardName + cards
+
     axios.get(retrieveListUrl)
     .then((response) => {
       const cards = this.getCards(response);
@@ -31,7 +33,9 @@ class Board extends Component {
   }
 
   addCard = (newCardData) => {
-    const addCardUrl = `${this.props.url}${this.props.boardName}/cards`
+    const { boardsUrl, boardName, cards } = this.props
+    const addCardUrl = boardsUrl + boardName + cards
+
     axios.post(addCardUrl, newCardData)
     .then((response) => {
       const cards = this.state.cards;
@@ -46,8 +50,10 @@ class Board extends Component {
     };
 
     deleteCard = (card) => {
-      const deleteCardUrl  = `${this.props.cardUrl}${card.props.id}}`
-      console.log(card);
+      const { cardsUrl } = this.props
+      const cardId = card.props.id
+      const deleteCardUrl  = cardsUrl + cardId
+
       axios.delete(deleteCardUrl)
       .then((response) => {
         const cards = this.state.cards;
@@ -59,7 +65,7 @@ class Board extends Component {
         })
       })
       .catch((error) => {
-        this.setState({ message: error.message})
+        this.setState({ error: error.message})
       });
     }
 
@@ -88,12 +94,12 @@ class Board extends Component {
     render() {
       const renderedCards = this.renderCardComponents()
       const renderedAddCardCallback = this.renderAddCardCallback()
+
       return (
         <div className="board">
           { renderedAddCardCallback }
           { renderedCards }
         </div>
-
       )
     }
   }

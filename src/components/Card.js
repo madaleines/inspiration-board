@@ -7,22 +7,25 @@ import './Card.css';
 class Card extends Component {
   renderText = () => {
     if (this.props.text) {
-      return(
-        <p className="card__content-text">{ this.props.text }</p>
+      return (
+        <p className="card__content-text">
+          { this.props.text }
+        </p>
       )
     }
   }
 
   renderEmoji = () => {
     if (this.props.emoji) {
-      return(
-        <p className="card__content-emoji">{ emoji.getUnicode(this.props.emoji) }</p>
+      return (
+        <p className="card__content-emoji">
+          { emoji.getUnicode(this.props.emoji) }
+        </p>
       )
     }
   }
 
   selectDelete = () => {
-    console.log(this.props.id, this.props.index)
     this.props.deleteCardCallback(this)
   }
 
@@ -36,8 +39,11 @@ class Card extends Component {
           { renderedText }
           { renderedEmoji }
         </div>
-        <button type="button" onClick={ this.selectDelete }>x</button>
-
+        <button
+          type="button"
+          onClick={ this.selectDelete }
+          >x
+        </button>
       </section>
     )
   }
